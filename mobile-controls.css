@@ -1,0 +1,79 @@
+/* STAGE1 / STAGE2 / BOSS 共通スマホ操作UI */
+.game-frame {
+    position: relative;
+}
+
+.mobile-controls {
+    display: none;
+    position: absolute;
+    z-index: 3;
+    inset: 0;
+    pointer-events: none;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+.mobile-controls__move {
+    position: absolute;
+    left: max(20px, env(safe-area-inset-left));
+    bottom: max(18px, env(safe-area-inset-bottom));
+    display: flex;
+    gap: 14px;
+}
+
+.mobile-control-button {
+    pointer-events: auto;
+    display: grid;
+    place-items: center;
+    width: clamp(58px, 9vw, 78px);
+    height: clamp(58px, 9vw, 78px);
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 2px solid rgba(255, 255, 255, .65);
+    border-radius: 50%;
+    color: #fff;
+    background: rgba(5, 5, 10, .40);
+    box-shadow: none;
+    font: 700 clamp(22px, 3vw, 30px)/1 sans-serif;
+    -webkit-appearance: none;
+    appearance: none;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-control-button--jump {
+    position: absolute;
+    right: max(24px, env(safe-area-inset-right));
+    bottom: max(18px, env(safe-area-inset-bottom));
+    width: clamp(72px, 11vw, 94px);
+    height: clamp(72px, 11vw, 94px);
+    font-size: clamp(13px, 2vw, 18px);
+}
+
+.mobile-control-button.is-pressed,
+.mobile-control-button:active {
+    background: rgba(100, 100, 115, .68);
+    border-color: #fff;
+    transform: scale(.96);
+    filter: brightness(1.2);
+}
+
+@media (hover: none) and (pointer: coarse) {
+    html, body, canvas, .game-frame {
+        touch-action: none;
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+        overscroll-behavior: none;
+    }
+
+    .mobile-controls {
+        display: block;
+    }
+}

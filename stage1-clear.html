@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#87ceeb">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="めぐみの大冒険">
+    <title>STAGE 1 CLEAR</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="app-icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="clear-screen">
+
+    <h1>🌲 STAGE 1 CLEAR 🌲</h1>
+
+    <p>
+        めぐみは星を集め、
+        魔王城への道を見つけた――。
+    </p>
+
+    <button id="next-stage-btn">
+        STAGE 2へ ▶
+    </button>
+
+</div>
+
+<script>
+
+document
+.getElementById("next-stage-btn")
+.addEventListener("click", () => {
+
+    window.location.href = "stage2.html";
+
+});
+
+</script>
+
+<script src="pwa.js"></script>
+
+</body>
+</html>

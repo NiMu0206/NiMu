@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#130d28">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="めぐみの大冒険">
+    <title>BOSS BATTLE | めぐみの大冒険</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="app-icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="app-icon.svg">
+    <link rel="stylesheet" href="boss.css">
+    <link rel="stylesheet" href="mobile-controls.css">
+</head>
+<body>
+    <main class="boss-page">
+        <div class="game-frame">
+            <canvas id="gameCanvas" width="900" height="500" aria-label="紫の魔王とのボス戦"></canvas>
+            <section id="messagePanel" class="message-panel hidden" aria-live="polite">
+                <h2 id="messageTitle"></h2>
+                <p id="messageText"></p>
+                <button id="restartButton" type="button">もう一度挑戦</button>
+                <a id="endingButton" class="ending-button hidden" href="ending.html">誕生日エンディングへ</a>
+            </section>
+            <div class="mobile-controls" aria-label="ゲーム操作">
+                <div class="mobile-controls__move">
+                    <button class="mobile-control-button" data-control="left" type="button" aria-label="左へ移動">◀</button>
+                    <button class="mobile-control-button" data-control="right" type="button" aria-label="右へ移動">▶</button>
+                </div>
+                <button class="mobile-control-button mobile-control-button--jump" data-control="jump" type="button" aria-label="ジャンプ">JUMP</button>
+            </div>
+        </div>
+    </main>
+    <script src="mobile-controls.js"></script>
+    <script src="pwa.js"></script>
+    <script src="boss.js"></script>
+</body>
+</html>

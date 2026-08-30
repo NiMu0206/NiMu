@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#171126">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="めぐみの大冒険">
+    <title>STAGE 2 魔王城への道</title>
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="app-icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="app-icon.svg">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-controls.css">
+</head>
+
+<body>
+
+<div id="game-screen" class="game-frame">
+
+    <canvas
+        id="gameCanvas"
+        width="900"
+        height="500">
+    </canvas>
+
+    <div class="mobile-controls" aria-label="ゲーム操作">
+        <div class="mobile-controls__move">
+            <button class="mobile-control-button" data-control="left" type="button" aria-label="左へ移動">◀</button>
+            <button class="mobile-control-button" data-control="right" type="button" aria-label="右へ移動">▶</button>
+        </div>
+        <button class="mobile-control-button mobile-control-button--jump" data-control="jump" type="button" aria-label="ジャンプ">JUMP</button>
+    </div>
+
+</div>
+
+<script src="mobile-controls.js"></script>
+<script src="pwa.js"></script>
+<script src="stage2.js"></script>
+
+</body>
+</html>

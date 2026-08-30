@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#f7a8d3">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="めぐみの大冒険">
+    <title>Happy Birthday!</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="app-icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="app-icon.svg">
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; padding: 24px; text-align: center; color: #532957; font-family: "Yu Gothic", sans-serif; background: radial-gradient(circle, #fff9c9, #ffc9e7 55%, #c8b6ff); overflow: hidden; }
+        main { position: relative; z-index: 1; max-width: 760px; padding: 50px 35px; border: 5px solid #fff; border-radius: 30px; background: #ffffffd9; box-shadow: 0 18px 60px #a85a9a55; }
+        h1 { margin: 0; font-size: clamp(40px, 8vw, 82px); color: #f04f9a; text-shadow: 3px 3px #ffe26f; }
+        p { font-size: clamp(18px, 3vw, 28px); font-weight: 700; line-height: 1.8; }
+        .present { font-size: 90px; animation: bounce 1s ease-in-out infinite alternate; }
+        .confetti { position: fixed; inset: 0; pointer-events: none; background-image: radial-gradient(circle, #ff4f91 0 5px, transparent 6px), radial-gradient(circle, #5bcfff 0 5px, transparent 6px), radial-gradient(circle, #ffe14f 0 5px, transparent 6px); background-size: 95px 100px, 130px 120px, 160px 150px; animation: fall 5s linear infinite; }
+        @keyframes bounce { to { transform: translateY(-16px) rotate(5deg); } }
+        @keyframes fall { to { background-position: 30px 500px, -20px 600px, 50px 750px; } }
+        @media (max-width: 520px) {
+            body { padding: 12px; }
+            main { width: 100%; padding: 32px 18px; border-width: 3px; border-radius: 22px; }
+            .present { font-size: 70px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="confetti"></div>
+    <main>
+        <div class="present">🎁</div>
+        <h1>Happy Birthday!</h1>
+        <p>めぐみ、お誕生日おめでとう！<br>素敵な一年になりますように。</p>
+    </main>
+    <script src="pwa.js"></script>
+</body>
+</html>

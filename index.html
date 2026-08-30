@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="めぐみの大冒険">
+    <title>めぐみの大冒険 ～Birthday Edition～</title>
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="app-icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="app-icon.svg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="title-screen">
+
+        <h1>🎮<br>めぐみの大冒険</h1>
+
+        <h2>Birthday Edition</h2>
+
+        <button id="start-btn">
+            ▶ START
+        </button>
+
+    </div>
+
+    <div id="opening-screen" class="hidden">
+
+        <div class="story-box">
+
+            <p>
+                8月24日――<br><br>
+
+                冒険者めぐみは<br>
+                ある噂を耳にした。<br><br>
+
+                誕生日にしか現れない<br>
+                伝説のプレゼント。<br><br>
+
+                そのプレゼントを探すため、<br>
+                旅に出るのであった。
+            </p>
+
+            <button id="continue-btn">
+                冒険へ出発！
+            </button>
+
+        </div>
+
+    </div>
+
+    <script src="pwa.js"></script>
+    <script src="game.js"></script>
+
+</body>
+</html>
