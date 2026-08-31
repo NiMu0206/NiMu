@@ -145,7 +145,7 @@
     function setIntensity(active) {
         if (trackName !== "boss") return;
         track.bpm = active ? 208 : baseBpm;
-        if (master) master.gain.setTargetAtTime(active ? 0.18 : 0.15, audioContext.currentTime, 0.08);
+        if (master) master.gain.setTargetAtTime(active ? 0.72 : 0.58, audioContext.currentTime, 0.08);
     }
 
     function runScheduler() {
@@ -166,11 +166,15 @@
             const filter = audioContext.createBiquadFilter();
             filter.type = "lowpass";
             filter.frequency.value = 2400;
-            master.gain.value = trackName === "boss" ? 0.15 : 0.13;
+            // iPhoneの小さなスピーカーでもBGMが効果音に埋もれない音量。
+            master.gain.value = trackName === "boss" ? 0.62 : 0.55;
             master.connect(filter).connect(audioContext.destination);
             nextNoteTime = audioContext.currentTime + 0.05;
         }
-        if (audioContext.state === "suspended") await audioContext.resume();
+        if (audioContext.state !== "running") {
+            try { await audioContext.resume(); } catch (_) { return; }
+        }
+        if (audioContext.state !== "running") return;
         if (!scheduler) scheduler = window.setInterval(runScheduler, 40);
         started = true;
     }
@@ -191,10 +195,13 @@
     });
 
     const unlock = () => {
-        if (!muted && !started) startMusic();
+        if (!muted && (!started || audioContext?.state !== "running")) startMusic();
     };
-    document.addEventListener("pointerdown", unlock, { capture: true, once: true });
-    document.addEventListener("keydown", unlock, { capture: true, once: true });
+    // iOS Safari / ホーム画面Webアプリのどちらでも、ユーザー操作の瞬間に解禁する。
+    document.addEventListener("pointerdown", unlock, { capture: true });
+    document.addEventListener("touchstart", unlock, { capture: true, passive: true });
+    document.addEventListener("click", unlock, { capture: true });
+    document.addEventListener("keydown", unlock, { capture: true });
     document.addEventListener("visibilitychange", () => {
         if (document.hidden) stopMusic();
         else if (!muted && started) startMusic();
@@ -202,5 +209,5 @@
 
     refreshButton();
     document.body.appendChild(button);
-    window.GameAudio = { play: playEffect, setIntensity };
+    window.GameAudio = { play: playEffect, setIntensity, unlock };
 })();

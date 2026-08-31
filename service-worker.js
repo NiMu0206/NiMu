@@ -1,4 +1,4 @@
-const CACHE_NAME = "megumi-birthday-v22";
+const CACHE_NAME = "megumi-birthday-v23";
 const GAME_FILES = [
     "./",
     "./index.html",
