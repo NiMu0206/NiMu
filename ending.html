@@ -15,27 +15,175 @@
     <style>
         * { box-sizing: border-box; }
         body { margin: 0; min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; padding: 24px; text-align: center; color: #532957; font-family: "Yu Gothic", sans-serif; background: radial-gradient(circle, #fff9c9, #ffc9e7 55%, #c8b6ff); overflow: hidden; }
-        main { position: relative; z-index: 1; max-width: 760px; padding: 50px 35px; border: 5px solid #fff; border-radius: 30px; background: #ffffffd9; box-shadow: 0 18px 60px #a85a9a55; }
+        main { position: relative; z-index: 1; max-width: 760px; padding: 38px 35px 44px; border: 5px solid #fff; border-radius: 30px; background: #ffffffd9; box-shadow: 0 18px 60px #a85a9a55; animation: appear .8s ease-out both; }
         h1 { margin: 0; font-size: clamp(40px, 8vw, 82px); color: #f04f9a; text-shadow: 3px 3px #ffe26f; }
-        p { font-size: clamp(18px, 3vw, 28px); font-weight: 700; line-height: 1.8; }
-        .present { font-size: 90px; animation: bounce 1s ease-in-out infinite alternate; }
-        .confetti { position: fixed; inset: 0; pointer-events: none; background-image: radial-gradient(circle, #ff4f91 0 5px, transparent 6px), radial-gradient(circle, #5bcfff 0 5px, transparent 6px), radial-gradient(circle, #ffe14f 0 5px, transparent 6px); background-size: 95px 100px, 130px 120px, 160px 150px; animation: fall 5s linear infinite; }
-        @keyframes bounce { to { transform: translateY(-16px) rotate(5deg); } }
+        p { font-size: clamp(17px, 2.7vw, 26px); font-weight: 700; line-height: 1.65; }
+        .legend { margin: 0 0 10px; color: #8e4ca1; font-size: clamp(15px, 2vw, 20px); letter-spacing: .12em; }
+        .present { position: relative; width: 112px; height: 96px; margin: 34px auto 24px; animation: giftRise 1.1s .2s cubic-bezier(.2,.9,.2,1.25) both; cursor: pointer; touch-action: manipulation; outline: none; }
+        .present:focus-visible { filter: drop-shadow(0 0 12px #f04f9a); }
+        .present.tapped { animation: giftTap .22s ease; }
+        .present-box { position: absolute; left: 10px; bottom: 0; width: 92px; height: 70px; border-radius: 5px; background: #f04f9a; box-shadow: 0 13px 24px #b33c7555; }
+        .present-lid { position: absolute; left: 0; top: 10px; width: 112px; height: 27px; border-radius: 7px; background: #ff70ad; transform-origin: 90% 100%; transition: transform .8s ease-out; }
+        .present.opened .present-lid { transform: translate(26px,-30px) rotate(18deg); }
+        .keyhole { position: absolute; z-index: 3; left: 43px; top: 31px; width: 8px; height: 17px; border-radius: 50% 50% 3px 3px; background: #7f315b; box-shadow: 0 0 0 transparent; transition: .5s; }
+        main.ready .keyhole { background: #fff3a1; box-shadow: 0 0 16px 6px #ffe45c; }
+        .present-box::after, .present-lid::after { content: ""; position: absolute; left: 45%; top: 0; width: 13px; height: 100%; background: #ffe45c; }
+        .present-lid::after { left: 50px; }
+        .bow { position: absolute; z-index: 2; left: 36px; top: -9px; width: 40px; height: 28px; }
+        .bow::before, .bow::after { content: ""; position: absolute; width: 25px; height: 18px; border: 7px solid #ffe45c; border-radius: 50%; }
+        .bow::before { right: 19px; transform: rotate(18deg); }
+        .bow::after { left: 19px; transform: rotate(-18deg); }
+        .key-stars { position: absolute; z-index: 5; left: 50%; top: 132px; width: 1px; height: 1px; pointer-events: none; }
+        .key-stars::before { content: ""; position: absolute; left: -70px; top: -70px; width: 140px; height: 140px; border: 4px solid #ffe66d; border-radius: 50%; opacity: 0; box-shadow: 0 0 24px #fff29a, inset 0 0 20px #ff9ed8; animation: starRing 1.3s 2.15s ease-in-out both; }
+        .key-stars span { position: absolute; left: -16px; top: -16px; color: #ffe34f; font-size: 32px; text-shadow: 0 0 8px #fff, 0 0 18px #fff29a, 0 0 28px #ffbe4f; animation: starToKey 3s var(--delay) cubic-bezier(.25,.7,.2,1) both; }
+        .key-stars .key-symbol { position: absolute; left: -28px; top: -31px; opacity: 0; color: inherit; font-size: 54px; text-shadow: 0 0 16px #fff29a, 0 0 30px #ffbf46; animation: keyAppear 1s 3.15s ease-out forwards; }
+        .key-reveal { margin: 0 0 7px; opacity: 0; color: #99509e; font-size: clamp(14px, 2vw, 18px); animation: revealText .7s 3.55s forwards; }
+        .tap-hint { margin: 5px 0 8px; opacity: 0; color: #8e4ca1; font-size: clamp(15px, 2vw, 19px); transition: .5s; }
+        .tap-count { display: flex; justify-content: center; gap: 10px; margin-bottom: 12px; opacity: 0; transition: .5s; }
+        main.ready .tap-hint, main.ready .tap-count { opacity: 1; }
+        .tap-count span { width: 12px; height: 12px; border: 2px solid #f04f9a; border-radius: 50%; transition: .25s; }
+        .tap-count span.on { background: #f04f9a; box-shadow: 0 0 10px #ff73bd; }
+        .birthday-message { opacity: 0; transform: translateY(16px); transition: .8s .35s; }
+        main.opened .birthday-message { opacity: 1; transform: none; }
+        main.opened .tap-hint, main.opened .tap-count { display: none; }
+        .confetti { position: fixed; inset: 0; opacity: 0; pointer-events: none; background-image: radial-gradient(circle, #ff4f91 0 5px, transparent 6px), radial-gradient(circle, #5bcfff 0 5px, transparent 6px), radial-gradient(circle, #ffe14f 0 5px, transparent 6px); background-size: 95px 100px, 130px 120px, 160px 150px; }
+        .confetti.active { opacity: 1; animation: fall 5s linear infinite; }
+        .credits { position: fixed; z-index: 20; inset: 0; display: none; overflow: hidden; color: #fff; background: radial-gradient(circle at center, #21102e, #050308 70%); }
+        .credits.show { display: block; animation: creditsFade .9s ease both; }
+        .credit-roll { position: absolute; left: 0; width: 100%; text-align: center; animation: creditRoll 20s linear forwards; }
+        .credit-roll h2 { margin: 0 0 55px; color: #ffd963; font-size: clamp(30px, 5vw, 52px); letter-spacing: .22em; }
+        .credit-row { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; width: min(620px, 82vw); margin: 0 auto 27px; font-size: clamp(16px, 2.5vw, 23px); }
+        .credit-row span:first-child { color: #cbb4d8; text-align: right; }
+        .credit-row span:last-child { color: #fff; font-weight: 800; text-align: left; }
+        .credit-joke { margin: 62px 0; color: #ff9ed3; font-weight: 800; font-size: clamp(19px, 3vw, 28px); }
+        .credit-finale { position: absolute; inset: 0; display: grid; place-content: center; opacity: 0; text-align: center; animation: finale 4.5s 18.3s ease forwards; }
+        .credit-finale p { margin: 0 0 12px; color: #e9d8ef; font-size: clamp(18px, 3vw, 27px); }
+        .credit-finale h2 { margin: 0; color: #ff78bc; font-size: clamp(58px, 12vw, 120px); text-shadow: 0 0 25px #ff5ab4; }
+        .credit-finale small { margin-top: 35px; color: #ffe890; font-size: clamp(14px, 2vw, 20px); }
+        .credit-skip { position: absolute; z-index: 2; top: max(14px, env(safe-area-inset-top)); left: max(16px, env(safe-area-inset-left)); padding: 8px 15px; border: 1px solid #ffffff88; border-radius: 20px; color: #fff; background: #0008; font-weight: 700; }
+        @keyframes appear { from { opacity: 0; transform: scale(.9); } }
+        @keyframes giftRise { from { opacity: 0; transform: translateY(80px) scale(.5); } to { opacity: 1; transform: none; } }
+        @keyframes giftTap { 50% { transform: scale(1.13) rotate(-3deg); } }
+        @keyframes starToKey { 0% { opacity: 0; transform: translate(var(--sx),var(--sy)) scale(.3) rotate(0); } 15% { opacity: 1; } 58% { opacity: 1; transform: translate(var(--ox),var(--oy)) scale(1.15) rotate(240deg); } 76% { opacity: 1; transform: translate(var(--ox),var(--oy)) scale(.9) rotate(500deg); } 100% { opacity: 0; transform: translate(0,34px) scale(.12) rotate(720deg); } }
+        @keyframes starRing { 0% { opacity: 0; transform: scale(.25) rotate(0); } 45% { opacity: .9; transform: scale(1.15) rotate(120deg); } 100% { opacity: 0; transform: scale(.2) rotate(260deg); } }
+        @keyframes keyAppear { 0% { opacity: 0; transform: scale(.25) rotate(-30deg); } 55% { opacity: 1; transform: scale(1.2) rotate(8deg); } 100% { opacity: 0; transform: translateY(42px) scale(.35); } }
+        @keyframes revealText { to { opacity: 1; } }
         @keyframes fall { to { background-position: 30px 500px, -20px 600px, 50px 750px; } }
+        @keyframes creditsFade { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes creditRoll { from { top: 100%; } to { top: -1750px; } }
+        @keyframes finale { 0%,15% { opacity: 0; transform: scale(.92); } 40%,100% { opacity: 1; transform: none; } }
         @media (max-width: 520px) {
             body { padding: 12px; }
             main { width: 100%; padding: 32px 18px; border-width: 3px; border-radius: 22px; }
-            .present { font-size: 70px; }
+            .present { transform: scale(.88); margin-top: 24px; margin-bottom: 14px; }
         }
     </style>
 </head>
 <body>
     <div class="confetti"></div>
-    <main>
-        <div class="present">🎁</div>
-        <h1>Happy Birthday!</h1>
-        <p>めぐみ、お誕生日おめでとう！<br>素敵な一年になりますように。</p>
+    <main id="endingCard">
+        <p class="legend">LEGENDARY BIRTHDAY PRESENT</p>
+        <div class="key-stars" aria-hidden="true">
+            <span style="--sx:-360px;--sy:-120px;--ox:-92px;--oy:-22px;--delay:.02s">★</span>
+            <span style="--sx:-330px;--sy:170px;--ox:-74px;--oy:62px;--delay:.08s">★</span>
+            <span style="--sx:-170px;--sy:260px;--ox:-25px;--oy:92px;--delay:.14s">★</span>
+            <span style="--sx:5px;--sy:-300px;--ox:30px;--oy:-92px;--delay:.20s">★</span>
+            <span style="--sx:170px;--sy:-250px;--ox:78px;--oy:-55px;--delay:.26s">★</span>
+            <span style="--sx:350px;--sy:-130px;--ox:96px;--oy:20px;--delay:.32s">★</span>
+            <span style="--sx:370px;--sy:150px;--ox:65px;--oy:72px;--delay:.38s">★</span>
+            <span style="--sx:190px;--sy:260px;--ox:8px;--oy:98px;--delay:.44s">★</span>
+            <span style="--sx:-30px;--sy:300px;--ox:-52px;--oy:82px;--delay:.50s">★</span>
+            <span style="--sx:-370px;--sy:30px;--ox:-95px;--oy:18px;--delay:.56s">★</span>
+            <span class="key-symbol">🔑</span>
+        </div>
+        <div id="present" class="present" role="button" tabindex="0" aria-label="伝説のプレゼントを3回タップして開ける">
+            <div class="present-box"><span class="keyhole"></span></div>
+            <div class="present-lid"><span class="bow"></span></div>
+        </div>
+        <p class="key-reveal">集めた星たちは、伝説のプレゼントを開く鍵だった！</p>
+        <p class="tap-hint">プレゼントを3回タップして開けよう！</p>
+        <div class="tap-count" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="birthday-message">
+            <h1>Happy Birthday!</h1>
+            <p>長い冒険の末、伝説のプレゼントは<br>めぐみのもとへ戻ってきた！<br><br>めぐみ、お誕生日おめでとう！<br>新しい一年にも、素敵な冒険が待っていますように。</p>
+        </div>
     </main>
+    <section id="credits" class="credits" aria-hidden="true">
+        <button id="creditSkip" class="credit-skip" type="button">SKIP</button>
+        <div class="credit-roll">
+            <h2>CREDITS</h2>
+            <div class="credit-row"><span>企画</span><span>せいや</span></div>
+            <div class="credit-row"><span>原作</span><span>せいや</span></div>
+            <div class="credit-row"><span>脚本</span><span>せいや</span></div>
+            <div class="credit-row"><span>ゲームデザイン</span><span>せいや</span></div>
+            <div class="credit-row"><span>プログラム</span><span>せいや</span></div>
+            <div class="credit-row"><span>キャラクターデザイン</span><span>せいや</span></div>
+            <div class="credit-row"><span>背景美術</span><span>せいや</span></div>
+            <div class="credit-row"><span>音楽</span><span>せいや</span></div>
+            <div class="credit-row"><span>効果音</span><span>せいや</span></div>
+            <div class="credit-row"><span>演出</span><span>せいや</span></div>
+            <div class="credit-row"><span>デバッグ</span><span>せいや</span></div>
+            <div class="credit-row"><span>魔王役</span><span>せいや</span></div>
+            <div class="credit-row"><span>星の管理</span><span>せいや</span></div>
+            <div class="credit-row"><span>プレゼント管理</span><span>せいや</span></div>
+            <div class="credit-row"><span>制作総指揮</span><span>せいや</span></div>
+            <p class="credit-joke">だいたい全部、せいや。</p>
+            <div class="credit-row"><span>SPECIAL THANKS</span><span>めぐみ</span></div>
+            <div class="credit-row"><span>制作・著作</span><span>せいや</span></div>
+        </div>
+        <div class="credit-finale">
+            <p>そして、今日の主人公</p>
+            <h2>めぐみ</h2>
+            <small>HAPPY BIRTHDAY!</small>
+        </div>
+    </section>
+    <script src="bgm.js"></script>
     <script src="pwa.js"></script>
+    <script>
+        const present = document.getElementById("present");
+        const endingCard = document.getElementById("endingCard");
+        const dots = [...document.querySelectorAll(".tap-count span")];
+        const confetti = document.querySelector(".confetti");
+        const credits = document.getElementById("credits");
+        const creditSkip = document.getElementById("creditSkip");
+        let taps = 0;
+        let starsReady = false;
+
+        window.setTimeout(() => {
+            starsReady = true;
+            endingCard.classList.add("ready");
+        }, 4300);
+
+        function tapPresent() {
+            if (!starsReady || taps >= 3) return;
+            taps++;
+            dots[taps - 1].classList.add("on");
+            present.classList.remove("tapped");
+            void present.offsetWidth;
+            present.classList.add("tapped");
+            window.GameAudio?.play(taps < 3 ? "star" : "victory");
+            if (taps === 3) {
+                present.classList.add("opened");
+                endingCard.classList.add("opened");
+                confetti.classList.add("active");
+                window.setTimeout(() => {
+                    credits.classList.add("show");
+                    credits.setAttribute("aria-hidden", "false");
+                }, 7000);
+            }
+        }
+
+        present.addEventListener("click", tapPresent);
+        present.addEventListener("keydown", event => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                tapPresent();
+            }
+        });
+        creditSkip.addEventListener("click", () => {
+            credits.classList.remove("show");
+            credits.setAttribute("aria-hidden", "true");
+        });
+    </script>
 </body>
 </html>

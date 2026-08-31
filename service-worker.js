@@ -1,4 +1,4 @@
-const CACHE_NAME = "megumi-birthday-v3";
+const CACHE_NAME = "megumi-birthday-v22";
 const GAME_FILES = [
     "./",
     "./index.html",
@@ -15,8 +15,11 @@ const GAME_FILES = [
     "./mobile-controls.css",
     "./mobile-controls.js",
     "./pwa.js",
+    "./bgm.js",
     "./manifest.json",
-    "./app-icon.svg"
+    "./app-icon.svg",
+    "./megumi-player.png",
+    "./purple-demon.png"
 ];
 
 self.addEventListener("install", event => {
